@@ -1,6 +1,9 @@
 package com.abcd.springboot.autoconfig;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 @Configuration
 public class ApplicationConfig {
@@ -37,6 +40,15 @@ public class ApplicationConfig {
 	}
 	
 	@Bean
+	RedisConnectionFactory connectionFactory(){
+		JedisConnectionFactory f=new JedisConnectionFactory();
+		f.setHostName("101.201.77.49");
+		f.setPassword("kk_11");
+		f.setPort(6379);
+		return f;
+	}*/
+	
+	/*@Bean
 	RedisConnectionFactory connectionFactory(){
 		JedisConnectionFactory f=new JedisConnectionFactory();
 		f.setHostName("101.201.77.49");

@@ -20,6 +20,18 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <build>  
+    <plugins>  
+      <plugin>  
+        <groupId>org.apache.maven.plugins</groupId>  
+        <artifactId>maven-compiler-plugin</artifactId>  
+        <configuration>  
+          <source>1.8</source>  
+          <target>1.8</target>  
+        </configuration>  
+      </plugin>  
+    </plugins>  
+</build>
 
   <dependencies>
     <dependency>
@@ -88,6 +100,10 @@
         <!-- tag::security[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!-- end::security[] -->
@@ -103,6 +119,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+        <!-- <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-aop</artifactId>
+		</dependency> -->
+		<!-- fastdfs-client-java -->
+		<dependency>
+	      <groupId>org.csource</groupId>
+	      <artifactId>fastdfs-client-java</artifactId>
+	      <version>5.0.4</version>
+	    </dependency>
         
   </dependencies>
 </project>

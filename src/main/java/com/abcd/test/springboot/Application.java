@@ -2,12 +2,14 @@ package com.abcd.test.springboot;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.concurrent.Future;
 
 import javax.sql.DataSource;
 
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,11 +18,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.abcd.test.springboot.dao.CustomerMongoRepository;
-import com.abcd.test.springboot.dao.CustomerRepository;
 import com.abcd.test.springboot.model.Customer;
+import com.abcd.test.springboot.model.User;
 import com.abcd.test.springboot.service.BookingService;
+import com.abcd.test.springboot.service.GitHubLookupService;
 
 /**
  * Hello world!
@@ -29,16 +33,17 @@ import com.abcd.test.springboot.service.BookingService;
 @SpringBootApplication
 //@EnableScheduling
 @ComponentScan
+@EnableAsync
 public class Application implements CommandLineRunner{
 	 private static final Logger log = LoggerFactory.getLogger(Application.class);
 	 public static String ROOT = "upload-dir";
 	 
-	 @Bean
+//	 @Bean
 		BookingService bookingService() {
 			return new BookingService();
 		}
 
-		@Bean
+//		@Bean
 		JdbcTemplate jdbcTemplate(DataSource dataSource) {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			log.info("Creating tables");
@@ -47,6 +52,33 @@ public class Application implements CommandLineRunner{
 					+ "ID serial, FIRST_NAME varchar(5) NOT NULL)");
 			return jdbcTemplate;
 		}
+		
+		/*@Autowired
+	    GitHubLookupService gitHubLookupService;
+		
+		@Bean
+		CommandLineRunner ruanAsyn(){
+			return (String[] args) -> {
+			// Start the clock
+	        long start = System.currentTimeMillis();
+
+	        // Kick of multiple, asynchronous lookups
+	        Future<User> page1 = gitHubLookupService.findUser("PivotalSoftware");
+	        Future<User> page2 = gitHubLookupService.findUser("CloudFoundry");
+	        Future<User> page3 = gitHubLookupService.findUser("Spring-Projects");
+
+	        // Wait until they are all done
+	        while (!(page1.isDone() && page2.isDone() && page3.isDone())) {
+	            Thread.sleep(10); //10-millisecond pause between each check
+	        }
+
+	        // Print results, including elapsed time
+	        System.out.println("Elapsed time: " + (System.currentTimeMillis() - start));
+	        System.out.println(page1.get());
+	        System.out.println(page2.get());
+	        System.out.println(page3.get());
+			};
+		}*/
 	 
     public static void main(String[] args) throws InterruptedException {  
         ConfigurableApplicationContext context =  
@@ -159,7 +191,7 @@ public class Application implements CommandLineRunner{
 
     }
     
-    @Bean
+//    @Bean
 	public CommandLineRunner demoMongo(CustomerMongoRepository repository) {
     	return (args) -> {
     		repository.deleteAll();
